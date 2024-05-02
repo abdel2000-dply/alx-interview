@@ -2,6 +2,7 @@
 ''' stats module '''
 import sys
 import signal
+import re
 
 
 def signal_handler(signal, frame):
@@ -21,14 +22,16 @@ def print_stats():
 def parse_line(line):
     ''' parse_line function '''
     global total_size, line_count, status_codes
+    pattern = r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3} - \[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d+\] "GET /projects/260 HTTP/1.1" (\d{3}) (\d+)'  # nopep8
     try:
-        data = line.split()
-        total_size += int(data[-1])
-        status_code = data[-2]
-        if status_code in status_codes:
-            status_codes[status_code] += 1
-        line_count += 1
-    except BaseException:
+        match = re.fullmatch(pattern, line.strip())
+        if match:
+            status_code, size = match.groups()
+            total_size += int(size)
+            if status_code in status_codes:
+                status_codes[status_code] += 1
+            line_count += 1
+    except Exception:
         pass
 
 
