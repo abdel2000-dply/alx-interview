@@ -17,7 +17,7 @@ def print_stats():
             print("{}: {}".format(code, status_codes[code]))
 
 
-status_codes = {"200": 0, "301": 0, "400": 0, \
+status_codes = {"200": 0, "301": 0, "400": 0,
                 "401": 0, "403": 0, "404": 0, "405": 0, "500": 0}
 total_size = 0
 line_count = 0
@@ -33,7 +33,7 @@ try:
             if status_code in status_codes:
                 status_codes[status_code] += 1
             total_size += size
-        except e:
+        except Exception:
             pass
         line_count += 1
         if line_count % 10 == 0:
