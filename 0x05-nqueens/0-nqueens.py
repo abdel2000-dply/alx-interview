@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-'''The N queens problem.
-'''
+'''The N queens problem'''
 import sys
 
 
