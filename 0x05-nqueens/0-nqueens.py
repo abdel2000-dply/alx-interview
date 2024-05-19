@@ -1,59 +1,60 @@
 #!/usr/bin/python3
-"""doc doc doc"""
+'''The N queens problem'''
 import sys
 
 
-def solve_queens_problem(board_size):
-    """doc doc doc"""
+def printSolution(solutions):
+    '''Print the solutions'''
+    for solution in solutions:
+        print(solution)
 
-    def is_valid_position(pos, occupied_pos):
-        """doc doc doc"""
-        for i in range(len(occupied_pos)):
-            if (
-                occupied_pos[i] == pos or
-                occupied_pos[i] - i == pos - len(occupied_pos) or
-                occupied_pos[i] + i == pos + len(occupied_pos)
-            ):
-                return False
-        return True
 
-    def place_queens(board_size, index, occupied_pos, solutions):
-        """doc doc doc"""
-        if index == board_size:
-            solutions.append(occupied_pos[:])
-            return
+def isSafe(solution, row, col):
+    '''Check if a queen can be placed on board[row][col]'''
+    for i in range(col):
+        if solution[i][1] == row or \
+           solution[i][0] + solution[i][1] == col + row or \
+           solution[i][0] - solution[i][1] == col - row:
+            return False
+    return True
 
-        for i in range(board_size):
-            if is_valid_position(i, occupied_pos):
-                occupied_pos.append(i)
-                place_queens(board_size, index + 1, occupied_pos, solutions)
-                occupied_pos.pop()
 
-    solutions = []
-    place_queens(board_size, 0, [], solutions)
-    return solutions
+def solveNQueens(N, solution, solutions, col=0):
+    '''Use backtracking to find all solutions'''
+    if col == N:
+        solutions.append(solution.copy())
+        return
+
+    for row in range(N):
+        if isSafe(solution, row, col):
+            solution[col] = [col, row]
+            solveNQueens(N, solution, solutions, col + 1)
+            solution[col] = [-1, -1]
 
 
 def main():
-    """doc doc doc"""
+    '''Main function'''
     if len(sys.argv) != 2:
-        print("Usage: nqueens N")
+        print('Usage: nqueens N')
         sys.exit(1)
 
     try:
-        board_size = int(sys.argv[1])
+        N = int(sys.argv[1])
     except ValueError:
-        print("N must be a number")
+        print('N must be a number')
         sys.exit(1)
 
-    if board_size < 4:
-        print("N must be at least 4")
+    if N < 4:
+        print('N must be at least 4')
         sys.exit(1)
 
-    solutions = solve_queens_problem(board_size)
-    for solution in solutions:
-        print([[i, solution[i]] for i in range(len(solution))])
+    solution = [[-1, -1] for _ in range(N)]
+    solutions = []
+
+    solveNQueens(N, solution, solutions)
+
+    printSolution(solutions)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
