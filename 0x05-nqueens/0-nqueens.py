@@ -3,7 +3,7 @@
 import sys
 
 
-def solve_queens_problem(N):
+def solve_queens_problem(board_size):
     """doc doc doc"""
 
     def is_valid_position(pos, occupied_pos):
@@ -17,20 +17,20 @@ def solve_queens_problem(N):
                 return False
         return True
 
-    def place_queens(N, index, occupied_pos, solutions):
+    def place_queens(board_size, index, occupied_pos, solutions):
         """doc doc doc"""
-        if index == N:
+        if index == board_size:
             solutions.append(occupied_pos[:])
             return
 
-        for i in range(N):
+        for i in range(board_size):
             if is_valid_position(i, occupied_pos):
                 occupied_pos.append(i)
-                place_queens(N, index + 1, occupied_pos, solutions)
+                place_queens(board_size, index + 1, occupied_pos, solutions)
                 occupied_pos.pop()
 
     solutions = []
-    place_queens(N, 0, [], solutions)
+    place_queens(board_size, 0, [], solutions)
     return solutions
 
 
@@ -41,16 +41,16 @@ def main():
         sys.exit(1)
 
     try:
-        N = int(sys.argv[1])
+        board_size = int(sys.argv[1])
     except ValueError:
         print("N must be a number")
         sys.exit(1)
 
-    if N < 4:
+    if board_size < 4:
         print("N must be at least 4")
         sys.exit(1)
 
-    solutions = solve_queens_problem(N)
+    solutions = solve_queens_problem(board_size)
     for solution in solutions:
         print([[i, solution[i]] for i in range(len(solution))])
 
