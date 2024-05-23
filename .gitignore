@@ -1,1 +1,6 @@
+# ignore .pyc files
 *.pyc
+
+# ignore node_modules and .json files
+node_modules
+*.json
