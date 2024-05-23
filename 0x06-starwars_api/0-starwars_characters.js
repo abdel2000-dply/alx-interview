@@ -5,7 +5,7 @@ const movieId = process.argv[2];
 
 const url = `https://swapi-api.alx-tools.com/api/films/${movieId}/`;
 
-function fetchCharacterName(characterUrl) {
+function fetchCharacterName (characterUrl) {
   return new Promise((resolve, reject) => {
     request(characterUrl, function (error, response, body) {
       if (error) {
