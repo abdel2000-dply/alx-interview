@@ -2,6 +2,7 @@
 """ Making Change
     using dynamic programming
 """
+import numpy as np
 
 
 def makeChange(coins, total):
@@ -10,7 +11,7 @@ def makeChange(coins, total):
     if total <= 0:
         return 0
 
-    arr = [float('inf')] * (total + 1)
+    arr = np.full(total + 1, np.inf)
     # arr = [inf, inf, inf, ..., inf] | len(arr) = total + 1
     arr[0] = 0
 
@@ -20,4 +21,4 @@ def makeChange(coins, total):
             if i == total:
                 break
 
-    return arr[total] if arr[total] != float('inf') else -1
+    return int(arr[total]) if arr[total] != np.inf else -1
