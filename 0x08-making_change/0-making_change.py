@@ -1,24 +1,23 @@
 #!/usr/bin/python3
 """ Making Change
-    using dynamic programming
+    using greedy algorithm
 """
-import numpy as np
 
 
 def makeChange(coins, total):
-    """ making change function
-    """
     if total <= 0:
         return 0
 
-    arr = np.full(total + 1, np.inf)
-    # arr = [inf, inf, inf, ..., inf] | len(arr) = total + 1
-    arr[0] = 0
+    coins.sort(reverse=True)
+    count = 0
 
     for coin in coins:
-        for i in range(coin, total + 1):
-            arr[i] = min(arr[i], arr[i - coin] + 1)
-            if i == total:
-                break
+        if total == 0:
+            return count
+        count += total // coin
+        total %= coin
 
-    return int(arr[total]) if arr[total] != np.inf else -1
+    if total != 0:
+        return -1
+
+    return count
